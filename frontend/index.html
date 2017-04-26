@@ -1,0 +1,25 @@
+<!DOCTYPE HTML>
+<html ng-app="app">
+    <head>
+        <meta charset="utf-8">
+        <link href="lib/bootstrap.css" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <script src="lib/angular.js"></script>
+        <script src="lib/angular-route.js"></script>
+        <script src="app.js"></script>
+        <script src="photo-controller.js"></script>
+        <div ng-controller="photoCtrl as ctrl">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-lg-12 col-sm-12 col-md-12">
+                        <form name="upload">
+                            <input id="picture" type="file" name="picture">
+                            <input type="submit" value="Загрузить">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
