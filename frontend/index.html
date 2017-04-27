@@ -13,11 +13,13 @@
             <div class="container">
                 <div class="row">
                     <div class="col-xs-12 col-lg-12 col-sm-12 col-md-12">
-                        <form name="upload">
                             <input id="picture" type="file" name="picture">
-                            <input type="submit" value="Загрузить">
-                        </form>
+                            <input type="submit" value="Загрузить" ng-click="ctrl.addPicture($event)">
+                            <div ng-repeat="pict in ctrl.ShowPicture">
+                                <img id="output" ng-bind="ctrl.GiveSrc(pict)">
+                            </div>
                     </div>
+
                 </div>
             </div>
         </div>
