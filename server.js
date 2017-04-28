@@ -3,9 +3,25 @@ var bodyParser = require('body-parser');
 var fs = require("fs");
 var app = express();
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended : true}));
+app.use(bodyParser.json({limit : "100mb"}));
+app.use(bodyParser.urlencoded({limit: "100mb", extended : true}));
 app.use(express.static('frontend')); //Для запуска всего проекта через запуск сервера!!
+
+var pg = require('pg');
+var conString = "tcp://admin:secret@localhost:3056/database";
+var client = new pg.Client(conString);
+client.connect();
+
+client.query(
+"INSERT INTO users " +
+"(name, age) VALUES ($1, $2) " +
+"RETURNING id",
+['Mike', 39],
+function(err, result) {
+    if (err) throw err;
+        console.log('Insert ID is ' + result.rows[0].id);
+    }
+);
 
 app.get('/', function(req, res){
     res.sendFile('index.html');
@@ -29,24 +45,8 @@ app.post('/pictures', function(req, res) {
 app.post('/savetofolder', function(req, res) {
     var object = {};
     object.name = req.body.name;
-    object.picture = req.body.picture;
+    object.data = req.body.data;
     loadfromserver.push(object);
-    fs.open("pictures/"+object.name, "a", 0644, function(err, file_handle) {
-    if (!err) {
-        // Записываем в конец файла readme.txt фразу "Copyrighted by Me"
-        // при открытии в режиме "a" указатель уже в конце файла, и мы передаём null
-        // в качестве позиции
-        fs.write(file_handle, object.picture, null, 'ascii', function(err, written) {
-            if (!err) {
-                // Всё прошло хорошо
-            } else {
-                // Произошла ошибка при записи
-            }
-        });
-    } else {
-        // Обработка ошибок при открытии
-    }
-    });
 });
 
 app.get('/pictures', function(req, res) {

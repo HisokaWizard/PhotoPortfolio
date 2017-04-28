@@ -12,7 +12,7 @@ app.controller("photoCtrl", function(
             var reader = new FileReader();
             reader.onload = function(){
                 _public.data = {};
-                _public.data.picture = reader.result;
+                _public.data.data = reader.result;
                 _public.data.name = _public.picture.name;
                 $http.post("http://localhost:3056/savetofolder", _public.data)
                 .success(function(result){
@@ -20,6 +20,15 @@ app.controller("photoCtrl", function(
                 })
                 .error(function(result){
                     console.log("Error in save to folder post", result);
+                });
+                //
+                $http.get("http://localhost:3056/savetofolder")
+                .success(function (result) {
+                    console.log("Get Success pictures", result);
+                    _public.ShowPicture = result;
+                })
+                .error(function (result) {
+                    console.log("Get Error pictures", result);
                 });
             }
             reader.readAsDataURL(_public.picture);
@@ -48,22 +57,5 @@ app.controller("photoCtrl", function(
         .error(function (result) {
             console.log("Get Error pictures", result);
         });
-
-    $http.get("http://localhost:3056/savetofolder")
-        .success(function (result) {
-            console.log("Get Success pictures", result);
-            _public.ShowPicture = result;
-        })
-        .error(function (result) {
-            console.log("Get Error pictures", result);
-        });
-
-    _public.GiveSrc = function(pict){
-        for(var item in _public.ShowPicture){
-            if(_public.ShowPicture[item].name == pict.name){
-                var output = document.getElementById("output");
-                output.src = pict.picture;
-            }
-        }
-    }        
+        
 });
