@@ -47,6 +47,7 @@ app.post('/savetofolder', function(req, res) {
     object.name = req.body.name;
     object.data = req.body.data;
     loadfromserver.push(object);
+    res.send(loadfromserver);
 });
 
 app.post('/randompicture', function(req, res) {
@@ -54,18 +55,11 @@ app.post('/randompicture', function(req, res) {
     if("get random picture" == value){
         randomPicture = Math.floor(Math.random() * loadfromserver.length);
     }
-});
-
-app.get('/pictures', function(req, res) {
-    res.send(pictures);
+    res.send(loadfromserver[randomPicture]);
 });
 
 app.get('/savetofolder', function(req, res){
     res.send(loadfromserver);
-});
-
-app.get('/randompicture', function(req, res){
-    res.send(loadfromserver[randomPicture]);
 });
 
 app.listen(3056, function(){
