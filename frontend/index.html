@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <link href="lib/bootstrap.css" rel="stylesheet" type="text/css">
+        <link href="style.css" rel="stylesheet" type="text/css">
     </head>
     <body>
         <script src="lib/angular.js"></script>
@@ -12,14 +13,29 @@
         <div ng-controller="photoCtrl as ctrl">
             <div class="container">
                 <div class="row">
-                    <div class="col-xs-12 col-lg-12 col-sm-12 col-md-12">
+                    <div class="col-xs-12 col-lg-12 col-sm-12 col-md-12 position-button">
+                        <div class="col-xs-4 col-lg-4 col-sm-4 col-md-4">
                             <input id="picture" type="file" name="picture">
+                        </div>
+                        <div class="col-xs-3 col-lg-3 col-sm-3 col-md-3">
                             <input type="submit" value="Загрузить" ng-click="ctrl.addPicture($event)">
-                            <div ng-repeat="pict in ctrl.ShowPicture">
-                                <img src="{{pict.data}}" width="300" height="300" style="float: left; margin:10px">
-                            </div>
+                        </div>    
+                        <div class="col-xs-3 col-lg-3 col-sm-3 col-md-3">
+                            <input type="button" value="Случайное изоражение" ng-click="ctrl.GetRandomImg()">
+                        </div>
                     </div>
-
+                    <div class="col-xs-12 col-lg-12 col-sm-12 col-md-12">
+                        <div ng-repeat="pict in ctrl.ShowPicture">
+                            <img class="pic-float picture-view" src="{{pict.data}}" width="300" height="300">
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-lg-12 col-sm-12 col-md-12">
+                        <div ng-if="ctrl.flagShowPicture">
+                            <div class="modal-window" ng-mousedown="ctrl.ClickAnywhere($event)">
+                                <img class="modal-picture-position" src={{ctrl.randomPicture.data}}>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

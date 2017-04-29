@@ -57,5 +57,49 @@ app.controller("photoCtrl", function(
         .error(function (result) {
             console.log("Get Error pictures", result);
         });
-        
+    
+    $http.get("http://localhost:3056/savetofolder")
+                .success(function (result) {
+                    console.log("Get Success pictures", result);
+                    _public.ShowPicture = result;
+                })
+                .error(function (result) {
+                    console.log("Get Error pictures", result);
+                });
+
+    _public.flagRandomPicture = false;
+    _public.GetRandomImg = function(){
+        _public.randomMessage = {value:"get random picture"};
+        $http.post("http://localhost:3056/randompicture", _public.randomMessage)
+            .success(function(result){
+                console.log("Success in save to folder post", result);
+            })
+            .error(function(result){
+                console.log("Error in save to folder post", result);
+            });
+        _public.flagRandomPicture = true;
+    };
+
+    _public.flagShowPicture = false;
+    $scope.$watch(function(){
+        return _public.flagRandomPicture;
+    },
+    function(){
+        if(_public.flagRandomPicture){
+            $http.get("http://localhost:3056/randompicture")
+                .success(function (result) {
+                    console.log("Get Success pictures", result);
+                    _public.randomPicture = result;
+                    _public.flagShowPicture = true;
+                    _public.flagRandomPicture = false;
+                })
+                .error(function (result) {
+                    console.log("Get Error pictures", result);
+                });
+        }
+    });
+
+    _public.ClickAnywhere = function(event){
+        _public.flagShowPicture = false;
+    };
 });

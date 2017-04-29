@@ -29,7 +29,7 @@ app.get('/', function(req, res){
 
 var pictures = [];
 var loadfromserver = [];
-
+var randomPicture = 0;
 app.post('/pictures', function(req, res) {
     console.log(req.body);
 
@@ -49,12 +49,23 @@ app.post('/savetofolder', function(req, res) {
     loadfromserver.push(object);
 });
 
+app.post('/randompicture', function(req, res) {
+    var value = req.body.value;
+    if("get random picture" == value){
+        randomPicture = Math.floor(Math.random() * loadfromserver.length);
+    }
+});
+
 app.get('/pictures', function(req, res) {
     res.send(pictures);
 });
 
 app.get('/savetofolder', function(req, res){
     res.send(loadfromserver);
+});
+
+app.get('/randompicture', function(req, res){
+    res.send(loadfromserver[randomPicture]);
 });
 
 app.listen(3056, function(){
